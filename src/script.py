@@ -25,6 +25,16 @@ import argparse
 import pandas as pd
 from joblib import load
 
+from sklearn.preprocessing import LabelEncoder, OrdinalEncoder, OneHotEncoder
+from sklearn.compose import make_column_selector
+from sklearn.compose import ColumnTransformer
+from sklearn.preprocessing import MinMaxScaler, StandardScaler
+from sklearn.model_selection import train_test_split
+from sklearn.model_selection import cross_validate
+from sklearn.feature_selection import SelectFromModel
+from sklearn.svm import SVC, LinearSVC
+from sklearn.impute import KNNImputer
+
 parser = argparse.ArgumentParser(description="Process and score data.")
 subparsers = parser.add_subparsers(dest="command")
 
@@ -55,10 +65,16 @@ def predict_outcomes(df):
     # they did.
 
     # Keep 
-    keepcols = ['burgstat2019', 'leeftijd2019', 'woonvorm2019', 'oplmet2019', 'aantalki2019']
+    keepcols = ['lftdcat2017', 'lftdcat2018', 'burgstat2019', 'woonvorm2015', 
+                'cf19l024', 'cf18k128','cf19l128', 'cf18k148','ca18f011', 'ch18k228', 'ch18k229', 'cs18k023',
+                'cs17j139', 'cs18k139','cs15h489', 'cs17j489','cw18k122', 'cw19l146']
     nomem_encr = df["nomem_encr"]
     
     df = df.loc[:, keepcols]
+    
+    categorical_columns = ['lftdcat2017', 'lftdcat2018', 'burgstat2019', 'woonvorm2015']
+    numerical_columns = ['cf19l024', 'cf18k128','cf19l128', 'cf18k148','ca18f011', 'ch18k228', 'ch18k229', 'cs18k023',
+                         'cs17j139', 'cs18k139','cs15h489', 'cs17j489','cw18k122', 'cw19l146']
     
     # Load your trained model from the models directory
     model_path = os.path.join(os.path.dirname(__file__), "..", "models", "model.joblib")
