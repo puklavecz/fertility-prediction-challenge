@@ -65,9 +65,9 @@ def predict_outcomes(df):
     # they did.
 
     # Keep 
-    keepcols = ['lftdcat2017', 'lftdcat2018', 'burgstat2019', 'woonvorm2015', 
-                'cf19l024', 'cf18k128','cf19l128', 'cf18k148','ca18f011', 'ch18k228', 'ch18k229', 'cs18k023',
-                'cs17j139', 'cs18k139','cs15h489', 'cs17j489','cw18k122', 'cw19l146']
+    keepcols =['wave2017', 'cf18k471', 'cf19l471', 'ch16i203', 'ch16i234', 'ch17j234', 'ch19l234', 'cv16h098', 'cs17j070', 'cs15h142', 
+               'cs15h146', 'cw18k450']
+    
     nomem_encr = df["nomem_encr"]
     
     df = df.loc[:, keepcols]
