@@ -72,10 +72,6 @@ def predict_outcomes(df):
     
     df = df.loc[:, keepcols]
     
-    categorical_columns = ['lftdcat2017', 'lftdcat2018', 'burgstat2019', 'woonvorm2015']
-    numerical_columns = ['cf19l024', 'cf18k128','cf19l128', 'cf18k148','ca18f011', 'ch18k228', 'ch18k229', 'cs18k023',
-                         'cs17j139', 'cs18k139','cs15h489', 'cs17j489','cw18k122', 'cw19l146']
-    
     # Load your trained model from the models directory
     model_path = os.path.join(os.path.dirname(__file__), "..", "models", "model.joblib")
     model = load(model_path)
