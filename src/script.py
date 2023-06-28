@@ -66,8 +66,6 @@ def predict_outcomes(df):
     
     nomem_encr = df["nomem_encr"]
     
-    df = df.loc[:, keepcols]
-    
     # Load your trained model from the models directory
     model_path = os.path.join(os.path.dirname(__file__), "..", "models", "model.joblib")
     model = load(model_path)
