@@ -63,10 +63,6 @@ def predict_outcomes(df):
     # prediction is represented as a binary value: '0' indicates that the
     # individual did not have a child during 2020-2022, while '1' implies that
     # they did.
-
-    # Keep 
-    keepcols =['wave2017', 'cf18k471', 'cf19l471', 'ch16i203', 'ch16i234', 'ch17j234', 'ch19l234', 'cv16h098', 'cs17j070', 'cs15h142', 
-               'cs15h146', 'cw18k450']
     
     nomem_encr = df["nomem_encr"]
     
