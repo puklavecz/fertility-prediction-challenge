@@ -64,7 +64,60 @@ def predict_outcomes(df):
     # individual did not have a child during 2020-2022, while '1' implies that
     # they did.
     
+    # create variable
+    count = 0
+    def get_relationship_length(row, year=19):
+        global count
+        if year <= 8:
+            return np.nan
+        colname_year = 'cf' + '{:02d}'.format(year) + chr(year+89) + '028'
+        # colname_partner = 'cf' + '{:02d}'.format(year) + chr(year+89) + '024'
+        colname_partner = 'cf19l024'
+        colname_same_partner = 'cf' + '{:02d}'.format(year) + chr(year+89) + '402'
+        if pd.notna(row[colname_year]):
+            return 2019 - row[colname_year]
+        elif row[colname_partner] == 2:
+            return 0
+        elif colname_same_partner == 2:
+            return 2019 - row[colname_year] if pd.notna(row[colname_year]) else row[colname_year]
+        else:
+            count += 1
+            return get_relationship_length(row, year-1)
+
+    df['RELLEN'] = [get_relationship_length(row[1]) for row in df.iterrows()]
+    
+    
+    df["cf19l128"] = np.where(np.isnan(df["cf19l128"]), 2, df["cf19l128"])
+    df["cf18k128"] = np.where(np.isnan(df["cf18k128"]), 2, df["cf18k128"])
+    df["cf17j128"] = np.where(np.isnan(df["cf17j128"]), 2, df["cf17j128"])
+    df["cf16i128"] = np.where(np.isnan(df["cf16i128"]), 2, df["cf16i128"])
+    df["cf15h128"] = np.where(np.isnan(df["cf15h128"]), 2, df["cf15h128"])
+    df["cf14g128"] = np.where(np.isnan(df["cf14g128"]), 2, df["cf14g128"])
+    df["cf13f128"] = np.where(np.isnan(df["cf13f128"]), 2, df["cf13f128"])
+    df["cf12e156"] = np.where(np.isnan(df["cf12e156"]), 2, df["cf12e156"])
+    df["cf11d156"] = np.where(np.isnan(df["cf11d156"]), 2, df["cf11d156"])
+    df["cf10c156"] = np.where(np.isnan(df["cf10c156"]), 2, df["cf10c156"])
+    df["cf09b156"] = np.where(np.isnan(df["cf09b156"]), 2, df["cf09b156"])
+    df["cf08a156"] = np.where(np.isnan(df["cf08a156"]), 2, df["cf08a156"])
+    
+    # Keep 
+    keepcols = ['geslacht', 'leeftijd2019', 'herkomstgroep2019', 'cr19l089',
+       'burgstat2019', 'woonvorm2019', 'cf19l024', 'cf19l025', 'cf19l030',
+       'partner2019', 'RELLEN', 'cf19l183', 'aantalki2019', 'cf19l454',
+       'oplmet2019', 'belbezig2019', 'nettohh_f2019', 'woning2019', 'cf19l128',
+       'cf19l129', 'cf19l130', 'cp19k010', 'cp19k011', 'cf17j180', 'cf18k180',
+       'cf19l180', 'cf19l483', 'cf19l484', 'cf19l485', 'cf19l486', 'cf19l487',
+       'cf19l488', 'cf19l198', 'cf19l199', 'cf19l200', 'cf19l201', 'ch19l004',
+       'ch19l018', 'ch19l021', 'ch19l022', 'ch19l229', 'ch19l219', 'cv19k012',
+       'cv19k053', 'cv19k101', 'cv19k125', 'cv19k126', 'cv19k130', 'cv19k140',
+       'cv19k111', 'cv19k142', 'cv19k143', 'cv19k144', 'cv19k145', 'cv19k146',
+       'cr19l134', 'cs19l079', 'cs19l105', 'cs19l436', 'cs19l435', 'cf19l131',
+       'cf19l132', 'cf19l133', 'cf19l134', 'cf19l135', 'cf19l136', 'cf19l504',
+       'cf19l505', 'cf19l506', 'cf19l508', 'cf19l011', 'cf19l068', 'cf19l252']
+    
     nomem_encr = df["nomem_encr"]
+    
+    df = df.loc[:, keepcols]
     
     # Load your trained model from the models directory
     model_path = os.path.join(os.path.dirname(__file__), "..", "models", "model.joblib")
