@@ -86,7 +86,6 @@ def predict_outcomes(df):
 
     df['RELLEN'] = [get_relationship_length(row[1]) for row in df.iterrows()]
     
-    
     df["cf19l128"] = np.where(np.isnan(df["cf19l128"]), 2, df["cf19l128"])
     df["cf18k128"] = np.where(np.isnan(df["cf18k128"]), 2, df["cf18k128"])
     df["cf17j128"] = np.where(np.isnan(df["cf17j128"]), 2, df["cf17j128"])
